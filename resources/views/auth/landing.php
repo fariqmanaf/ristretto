@@ -1,5 +1,6 @@
 <?php include 'resources/partials/navbar.php'; ?>
-<div class="alert absolute text-white top-20 w-full flex justify-center items-center">
+
+<div class="alert z-20 absolute md:text-sm text-xs text-white top-28 md:top-32 w-full flex justify-center items-center">
     <?php displayFlashMessages('success'); ?>
     <?php displayFlashMessages('error'); ?>
 </div>
@@ -19,7 +20,7 @@
     <img id="pict" src="<?= urlpath('assets/images/about.jpg') ?>" class="w-60 h-40 md:w-96 md:h-60 rounded-2xl border-2 border-white" alt="Lol">
     <p id="about-text" class="text-white md:-mt-20 w-[70%] text-center text-xs md:text-base md:w-[40%] md:text-justify">Ristretto adalah sebuah kafe yang menonjolkan suasana hangat dan nyaman, ideal untuk bersantai atau bekerja. Didirikan pada tahun 2024 di kota Jember, Indonesia, Ristretto menawarkan tempat pelarian sempurna dari keramaian kota yang sibuk. Interiornya didesain dengan sentuhan modern dan elegan.</p>
   </div>
-  <button class="bg-white border-transparent transition duration-300 border-2 hover:border-white hover:bg-transparent hover:text-white z-10 rounded-full mt-12 md:-mt-16 py-2 px-6 md:ml-20 font-semibold">Review Our Menu</button>
+  <a class="z-10 mt-12 md:-mt-16 md:ml-20 " href="<?= urlpath('review') ?>"><button class="bg-white py-2 px-6 rounded-full border-transparent transition duration-300 border-2 hover:border-white hover:bg-transparent hover:text-white font-semibold">Review Our Menu</button></a>
 </div>
 <div id="our-location" class="w-screen h-screen flex flex-col justify-center items-center relative">
   <div id="bg-black2" class="bg-black w-[100dvw] h-[100dvh] bg-black absolute"></div>

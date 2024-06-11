@@ -1,5 +1,5 @@
 <section class="bg-black dark:bg-black h-screen w-screen">
-    <div class="alert absolute text-white top-20 w-full flex justify-center items-center">
+    <div class="alert absolute md:text-sm text-xs text-white top-28 md:top-20 w-full flex justify-center items-center">
         <?php displayFlashMessages('success'); ?>
         <?php displayFlashMessages('error'); ?>
     </div>
@@ -61,3 +61,12 @@
         </div>
     </div>
 </section>
+<style>
+    input:-webkit-autofill,
+input:-webkit-autofill:hover,
+input:-webkit-autofill:focus,
+input:-webkit-autofill:active {
+    transition: background-color 5000s ease-in-out 0s;
+    -webkit-text-fill-color: white !important;
+}
+</style>

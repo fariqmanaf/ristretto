@@ -17,18 +17,18 @@ class Users
                 if ( $verify ) {
                     $token = bin2hex( random_Bytes( 32 ) );
                     $current_time = date( 'Y-m-d H:i:s' );
-                    $token_expires_at = date( 'Y-m-d H:i:s', strtotime( '+1 hour', strtotime( $current_time ) ) );
+                    $token_expired_at = date( 'Y-m-d H:i:s', strtotime( '+1 hour', strtotime( $current_time ) ) );
                     $user_id = $result[ 'user_id' ];
 
                     $existingTokenQuery = $conn->query( "SELECT * FROM user_tokens WHERE user_id = '$user_id'" );
                     if ( $existingTokenQuery->num_rows > 0 ) {
-                        $conn->query( "UPDATE user_tokens SET token = '$token', expired_at = '$token_expires_at' WHERE user_id = '$user_id'" );
+                        $conn->query( "UPDATE user_tokens SET token = '$token', expired_at = '$token_expired_at' WHERE user_id = '$user_id'" );
                     } else {
-                        $conn->query( "INSERT INTO user_tokens (user_id, token, expired_at, created_at) VALUES ('$user_id', '$token', '$token_expires_at', '$current_time')" );
+                        $conn->query( "INSERT INTO user_tokens (user_id, token, expired_at, created_at) VALUES ('$user_id', '$token', '$token_expired_at', '$current_time')" );
                     }
 
                     $result[ 'token' ] = $token;
-                    $result[ 'token_expires_at' ] = $token_expires_at;
+                    $result[ 'token_expired_at' ] = $token_expired_at;
                     unset( $result[ 'password' ] );
                     return $result;
             } else {
@@ -41,12 +41,24 @@ class Users
  {
         global $conn;
 
-        $result = $conn->query( "SELECT u.* FROM users u JOIN user_tokens ut ON u.id = ut.user_id WHERE ut.token = '$token' AND ut.expires_at > NOW()" );
+        $result = $conn->query( "SELECT u.* FROM user u JOIN user_tokens ut ON u.user_id = ut.user_id WHERE ut.token = '$token' AND ut.expired_at > NOW()" );
         if ( $result && $result->num_rows > 0 ) {
             return $result->fetch_assoc();
         } else {
             return null;
         }
+    }
+
+    static function getUsername( $username )
+    {
+        global $conn;
+        $sql = 'SELECT username FROM user WHERE username = ?';
+        $stmt = $conn->prepare( $sql );
+        $stmt->bind_param( 's', $username );
+        $stmt->execute();
+
+        $result = $stmt->affected_rows > 0 ? true : false;
+        return $result;
     }
 
     static function register( $data = [] )

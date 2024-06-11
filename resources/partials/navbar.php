@@ -21,9 +21,18 @@
           <a href="#our-location" class="menu-link block border-b py-2 px-3 text-black rounded hover:bg-gray-100 md:dark:text-white md:hover:bg-transparent md:border-0 md:hover:text-red-700 md:p-0 dark:text-black md:dark:hover:text-red-500 dark:hover:bg-transparent dark:hover:text-red-500 md:dark:hover:bg-transparent">Our Location</a>
         </li>
         <li>
-          <a href="#contact" class="menu-link block py-2 px-3 text-black rounded hover:bg-gray-100 md:dark:text-white md:hover:bg-transparent md:border-0 md:hover:text-red-700 md:p-0 dark:text-black md:dark:hover:text-red-500 dark:hover:bg-transparent dark:hover:text-red-500 md:dark:hover:bg-transparent">Contact</a>
+          <a href="#contact" class="menu-link block border-b py-2 px-3 text-black rounded hover:bg-gray-100 md:dark:text-white md:hover:bg-transparent md:border-0 md:hover:text-red-700 md:p-0 dark:text-black md:dark:hover:text-red-500 dark:hover:bg-transparent dark:hover:text-red-500 md:dark:hover:bg-transparent">Contact</a>
         </li>
-        <a href="<?= urlpath('login'); ?>"><button class="bg-red-500 hover:bg-red-700 w-full text-white p-1 rounded-xl md:w-24 md:absolute md:right-12">Login</button></a>
+        <?php if ($role_id == 3) : ?>
+          <li>
+          <a href="<?= urlpath('review'); ?>" class="menu-link block border-b py-2 px-3 text-black rounded hover:bg-gray-100 md:dark:text-white md:hover:bg-transparent md:border-0 md:hover:text-red-700 md:p-0 dark:text-black md:dark:hover:text-red-500 dark:hover:bg-transparent dark:hover:text-red-500 md:dark:hover:bg-transparent mb-2">Review</a>
+          </li>
+        <?php endif; ?>
+          <?php if (isset($_SESSION['user'])) : ?>
+          <a href="<?= urlpath('logout'); ?>"><button class="bg-red-500 hover:bg-red-700 w-full text-white p-1 rounded-xl md:w-24 md:absolute md:right-12">Logout</button></a>
+        <?php else : ?>
+          <a href="<?= urlpath('login'); ?>"><button class="bg-red-500 hover:bg-red-700 w-full text-white p-1 rounded-xl md:w-24 md:absolute md:right-12">Login</button></a>
+        <?php endif; ?>
       </ul>
     </div>
   </div>
