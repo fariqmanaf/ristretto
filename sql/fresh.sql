@@ -22,6 +22,10 @@ ALTER TABLE product AUTO_INCREMENT = 1;
 TRUNCATE TABLE user;
 ALTER TABLE user AUTO_INCREMENT = 1;
 
+-- Truncate tabel user
+TRUNCATE TABLE user_tokens;
+ALTER TABLE user_tokens AUTO_INCREMENT = 1;
+
 -- Truncate tabel roles
 TRUNCATE TABLE roles;
 ALTER TABLE roles AUTO_INCREMENT = 1;
