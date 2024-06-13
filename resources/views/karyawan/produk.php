@@ -18,6 +18,10 @@
               <p class="text-white text-center text-xs mt-2"><?= $product['product_name'] ?></p>
               <p class="text-white text-center text-xs mb-2">Rp<?= number_format($product['price'], 0, ',', '.') ?></p>
               <a href="<?= urlpath('produk/edit?id=' . $product['product_id']) ?>" class="edit text-center bg-red-700 text-sm text-white py-1 px-8 w-full hover:bg-red-900 rounded-lg">Edit Product</a>
+              <form action="<?= urlpath('produk') ?>" method="POST" class="mt-4">
+                  <input type="hidden" name="id" value="<?= $product['product_id'] ?>">
+                  <button type="submit" class="delete text-center bg-red-700 text-sm py-1 px-6 text-white hover:bg-red-900 rounded-lg">Delete Product</button>
+              </form>
           </div>
       <?php endforeach; ?>
     </div>

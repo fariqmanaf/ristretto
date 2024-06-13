@@ -8,5 +8,5 @@ if (isset($url)) {
     include_once $url . '.php';
 }
 ?>
-
+<?php include 'resources/partials/menuAdmin.php'; ?>
 <?php include 'resources/views/master/master_layout.php'; ?>

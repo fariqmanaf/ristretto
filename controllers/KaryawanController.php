@@ -319,4 +319,24 @@ class KaryawanController
       }
     }
   }
+
+  static function deleteProduct(){
+    if ($_SERVER['REQUEST_METHOD'] === 'POST') {
+      try {
+          $id = $_POST['id'];
+          $success = Product::deleteProducts($id);
+          if (!$success) {
+              throw new Exception('Gagal menghapus produk.');
+          }
+          setFlashMessage('success', 'Produk berhasil dihapus.');
+          header('Location: ' . BASEURL . 'produk');
+          exit;
+      } catch (Exception $e) {
+          setFlashMessage('danger', $e->getMessage());
+          error_log($e->getMessage());
+          header('Location: ' . BASEURL . 'produk');
+          exit;
+      }
+    }
+  }
 }

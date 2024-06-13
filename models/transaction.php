@@ -39,26 +39,48 @@ class Transaction{
     $stmt->close();
   }
 
-  static function getProfitChartPerMonth(){
+  static function getProfitChartPerMonth($month, $year){
     global $conn;
-    $sql = 
-    "SELECT 
-        t.transaction_date AS transaction_date,
-        p.amount AS total_revenue
+    $month = str_pad($month, 2, '0', STR_PAD_LEFT);
+    $sql = "
+    SELECT 
+        DATE(t.transaction_date) AS transaction_date,
+        SUM(p.amount) AS total_revenue
     FROM 
         transaction t
     JOIN 
         payment p ON t.payment_id = p.payment_id
     WHERE 
-        YEAR(t.transaction_date) = YEAR(CURDATE())
+        YEAR(t.transaction_date) = ? AND MONTH(t.transaction_date) = ?
+    GROUP BY 
+        DATE(t.transaction_date)
     ORDER BY 
-        MONTH(t.transaction_date);
+        DATE(t.transaction_date);
     ";
-    $result = $conn->query($sql);
+
+    $stmt = $conn->prepare($sql);
+    $stmt->bind_param("ii", $year, $month);
+    $stmt->execute();
+    $result = $stmt->get_result();
+
     $chartData = [];
     while ($row = $result->fetch_assoc()) {
-      $chartData[] = $row;
+        $chartData[] = $row;
     }
+
+    $stmt->close();
+
     return $chartData;
-  }
+}
+
+    static function getAlldetail(){
+        global $conn;
+        $sql = 'SELECT product_id, quantity FROM transaction_detail';
+        $result = $conn->query($sql);
+        $arr = [];
+        while ($row = $result->fetch_assoc()) {
+        $arr[] = $row;
+        }
+        return $arr;
+    }
 }

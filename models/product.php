@@ -133,5 +133,48 @@ class Product {
       $stmt->bind_param("sdisii", $name, $price, $categoryId, $photo, $isBestSeller, $id);
       $stmt->execute();
       return $stmt->affected_rows;
-  }  
+  }
+
+  static function getAllProductNames() {
+    global $conn;
+    $sql = "SELECT product_name FROM product ORDER BY category_id ASC";
+    $result = $conn->query($sql);
+    $productNames = [];
+    while ($row = $result->fetch_assoc()) {
+    $productNames[] = $row['product_name'];
+    }
+    return $productNames;
+  }
+
+  static function deleteProducts($id){
+    global $conn;
+    $conn->begin_transaction();
+    try {
+        $sqlTransactionDelete = "DELETE FROM transaction_detail WHERE product_id = ?";
+        $stmtTransactionDelete = $conn->prepare($sqlTransactionDelete);
+        $stmtTransactionDelete->bind_param('i', $id);
+        $stmtTransactionDelete->execute();
+        $stmtTransactionDelete->close();
+
+        $sqlRatingDelete = "DELETE FROM rating WHERE product_id = ?";
+        $stmtRatingDelete = $conn->prepare($sqlRatingDelete);
+        $stmtRatingDelete->bind_param('i', $id);
+        $stmtRatingDelete->execute();
+        $stmtRatingDelete->close();
+
+        $dqlProduct = "DELETE FROM product WHERE product_id = ?";
+        $stmtProduct = $conn->prepare($dqlProduct);
+        $stmtProduct->bind_param('i', $id);
+        $stmtProduct->execute();
+        $stmtProduct->close();
+
+        $conn->commit();
+
+        return true;
+    } catch (Exception $e) {
+        $conn->rollback();
+        echo "Failed to delete data: " . $e->getMessage();
+        return false;
+    }
+  }
 }

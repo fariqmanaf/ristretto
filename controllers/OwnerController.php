@@ -21,9 +21,13 @@ class OwnerController
             exit();
         }
         if ($user['role_id'] == '1') {
-            $day = date('Y-m-d');
-            $month = date('n');
-            $year = date('Y');
+            if(isset($_GET['month']) && isset($_GET['year'])){
+                $month = $_GET['month'];
+                $year = $_GET['year'];
+            } else {
+                $month = date('m');
+                $year = date('Y');
+            }
             $chartData = Transaction::getProfitChartPerMonth($month, $year);
             return view('owner/index', ['url' => 'dashboard', 'chartData' => $chartData]);
         }
