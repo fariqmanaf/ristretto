@@ -24,9 +24,8 @@ class OwnerController
             $day = date('Y-m-d');
             $month = date('n');
             $year = date('Y');
-            $chartData = Transaction::getProfitChart($month, $year);
-            var_dump($chartData);
-            return view('owner/index', ['url' => 'dashboard']);
+            $chartData = Transaction::getProfitChartPerMonth($month, $year);
+            return view('owner/index', ['url' => 'dashboard', 'chartData' => $chartData]);
         }
         session_unset();
         header('Location: home');

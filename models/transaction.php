@@ -39,34 +39,26 @@ class Transaction{
     $stmt->close();
   }
 
-  static function getProfitChart(){
+  static function getProfitChartPerMonth(){
     global $conn;
     $sql = 
     "SELECT 
-        DATE_FORMAT(transaction_date, '%d %b %Y') AS transaction_date,
-        SUM(total_price) AS total_revenue
+        t.transaction_date AS transaction_date,
+        p.amount AS total_revenue
     FROM 
-        transaction
+        transaction t
+    JOIN 
+        payment p ON t.payment_id = p.payment_id
     WHERE 
-        MONTH(transaction_date) = ?
-    AND 
-        YEAR(transaction_date) = ?
-    GROUP BY 
-        transaction_date
+        YEAR(t.transaction_date) = YEAR(CURDATE())
     ORDER BY 
-        transaction_date;
+        MONTH(t.transaction_date);
     ";
-    $stmt = $conn->prepare($sql);
-    $stmt->bind_param("ii", $month, $year);
-    $month = date('n');
-    $year = date('Y');
-    $stmt->execute();
-    $result = $stmt->get_result();
+    $result = $conn->query($sql);
     $chartData = [];
     while ($row = $result->fetch_assoc()) {
       $chartData[] = $row;
     }
-    $stmt->close();
     return $chartData;
   }
 }
