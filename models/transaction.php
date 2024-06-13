@@ -38,4 +38,35 @@ class Transaction{
     $stmt->execute();
     $stmt->close();
   }
+
+  static function getProfitChart(){
+    global $conn;
+    $sql = 
+    "SELECT 
+        DATE_FORMAT(transaction_date, '%d %b %Y') AS transaction_date,
+        SUM(total_price) AS total_revenue
+    FROM 
+        transaction
+    WHERE 
+        MONTH(transaction_date) = ?
+    AND 
+        YEAR(transaction_date) = ?
+    GROUP BY 
+        transaction_date
+    ORDER BY 
+        transaction_date;
+    ";
+    $stmt = $conn->prepare($sql);
+    $stmt->bind_param("ii", $month, $year);
+    $month = date('n');
+    $year = date('Y');
+    $stmt->execute();
+    $result = $stmt->get_result();
+    $chartData = [];
+    while ($row = $result->fetch_assoc()) {
+      $chartData[] = $row;
+    }
+    $stmt->close();
+    return $chartData;
+  }
 }

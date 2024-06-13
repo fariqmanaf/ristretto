@@ -109,7 +109,7 @@ class AuthController
                     $_SESSION['user'] = $user;
                     setcookie('token', $user['token'], strtotime($user['token_expires_at']), '/', '', false, true);
                     setFlashMessage('success', 'Login Berhasil, Selamat Datang!');
-                    header('Location: home');
+                    header('Location: rating');
                     exit();
                 }
             } else {

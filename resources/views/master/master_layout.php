@@ -8,7 +8,7 @@
     <link rel="icon" type="image/x-icon" href="<?= urlpath('assets/img/favicon.ico') ?>">
     <link href="https://fonts.googleapis.com/css?family=Poppins" rel="stylesheet">
     <link href="https://cdnjs.cloudflare.com/ajax/libs/flowbite/2.3.0/flowbite.min.css"  rel="stylesheet" />
-    <link href="assets/favicon/favicon.png" rel="icon">
+    <link href="<?= urlpath('assets/favicon/favicon.png') ?>" rel="icon">
     <script src="https://cdnjs.cloudflare.com/ajax/libs/flowbite/2.3.0/flowbite.min.js"></script>
     <script src="https://cdn.tailwindcss.com"></script>
     <script src="https://cdn.jsdelivr.net/npm/gsap@3.12.5/dist/gsap.min.js"></script>

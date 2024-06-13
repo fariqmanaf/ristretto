@@ -24,3 +24,7 @@ Router::url('produk/edit', 'get', 'KaryawanController::editProduk');
 Router::url('produk/edit', 'post', 'KaryawanController::updateProduk');
 
 Router::url('laporan', 'get', 'OwnerController::index');
+
+Router::url('rating', 'get', 'CustomerController::index');
+Router::url('review', 'get', 'CustomerController::review');
+Router::url('review', 'post', 'CustomerController::storeReview');
